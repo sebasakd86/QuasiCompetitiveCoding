@@ -62,7 +62,7 @@ namespace Competitive.Code
             // * As long as an activity that starts after the current time exists, 
             // * get the first one (since they're sorted, it will always be the one that ends first)                
             // * could iterate through the array instead of using FirstOrDefault
-            while(currentActivity != null)
+            while (currentActivity != null)
             {
                 ret++;
                 currentTime = currentActivity.End;
@@ -70,28 +70,41 @@ namespace Competitive.Code
             }
             return ret;
         }
-    }
-    public class Activity : IComparable<Activity>
-    {
-        public int Start { get; }
-        public int End { get; }
-        public Activity(int start, int end)
-        {
-            if (start >= end)
-                throw new ArgumentOutOfRangeException("Start is greater or equal than end");
-            this.End = end;
-            this.Start = start;
-        }
 
-        public int Compassare(object x, object y)
+        /*
+            Given arrivals & departures from several trains, find the min number of platforms needed to avoid waiting trains.
+        */
+        public static int MinimumNumberOfPlatforms(List<ScheduleActivity> schedule)
         {
-            int endX = ((Activity)x).End;
-            int endY = ((Activity)y).End;
-            return endX.CompareTo(endY);
-        }
-        public int CompareTo(Activity other)
-        {
-            return End.CompareTo(other.End);
+            if (schedule.Count < 2)
+                return schedule.Count;
+            // * Using a MinHeap, I can always get the minimun time value (prioritizing departures over arrivals at the same time)
+            // * alongside it's operation (Arrival or Departure)
+            var realSchedule = new MaxHeap<ScheduleNode>();
+            foreach (var t in schedule)
+            {
+                realSchedule.Insert(new ScheduleNode(t.Start * -1, true));
+                realSchedule.Insert(new ScheduleNode(t.End * -1, false));
+            }
+            int ret = 0;
+            int remainingPlatforms = 0;
+            // * Whenever a train arrives, if there're remaining platforms, use them
+            // * Otherwise, you need a new platform.
+            // * When a train departs, the you've got a new remaining platform to use.
+            while (!realSchedule.IsEmpty())
+            {
+                var s = realSchedule.RemoveTop();
+                if (s.Arriving)
+                {
+                    if (remainingPlatforms > 0)
+                        remainingPlatforms--;
+                    else
+                        ret++;
+                }
+                else
+                    remainingPlatforms++;
+            }
+            return ret;
         }
     }
 }

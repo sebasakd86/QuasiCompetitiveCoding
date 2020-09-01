@@ -37,45 +37,48 @@ namespace Competitive.Tests
                 return d;
             }
         }
-        [Fact]
-        public void Activity_StartGreaterValue_Throws()
+        [Theory]
+
+        public void MinimumNumberOfPlatforms(int expected, List<ScheduleActivity> trainActivity)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-            {
-                var a = new Activity(5, 1);
-            });
+            Assert.Equal(expected, Greedy.MinimumNumberOfPlatforms(trainActivity));
         }
 
-        [Fact]
-        public void Activity_StartEqualValue_Throws()
+        public static TheoryData<int, List<ScheduleActivity>> MinimumNumberOfPlatformsTestData
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            get
             {
-                var a = new Activity(5, 5);
-            });
-        }
-        [Fact]
-        public void Activity_CorrectValue()
-        {
-            int start = 5;
-            int end = 10;
-            var a = new Activity(start, end);
-            Assert.Equal(start, a.Start);
-            Assert.Equal(end, a.End);
+                var d = new TheoryData<int, List<ScheduleActivity>>();
+                d.Add(0, new List<ScheduleActivity>());
+                d.Add(1, new List<ScheduleActivity>() { new ScheduleActivity(0, 1) });
+                d.Add(1, new List<ScheduleActivity>() { new ScheduleActivity(0, 1), new ScheduleActivity(1, 2), new ScheduleActivity(2, 3) });
+                d.Add(4, new List<ScheduleActivity>()
+                {
+                    new ScheduleActivity(2,3), new ScheduleActivity(2,4), new ScheduleActivity(3,4), 
+                    new ScheduleActivity(3,5), new ScheduleActivity(3,4), new ScheduleActivity(5,6)
+                });
+                d.Add(5, new List<ScheduleActivity>()
+                {
+                    new ScheduleActivity(0,1), new ScheduleActivity(0,1),new ScheduleActivity(0,1),new ScheduleActivity(0,1),
+                    new ScheduleActivity(1,3), new ScheduleActivity(1,3),
+                    new ScheduleActivity(2,3), new ScheduleActivity(2,3),new ScheduleActivity(2,3)
+                });
+                d.Add(2, new List<ScheduleActivity>()
+                {
+                    new ScheduleActivity(0,1), new ScheduleActivity(0,2), new ScheduleActivity(1,3), new ScheduleActivity(2,4)
+                });
+                d.Add(2, new List<ScheduleActivity>()
+                {
+                    new ScheduleActivity(2,2.3),
+                    new ScheduleActivity(2.10, 3.40),
+                    new ScheduleActivity(3, 3.20),
+                    new ScheduleActivity(3.2, 4.3),
+                    new ScheduleActivity(3.5,4),
+                    new ScheduleActivity(5.5,20)
+                });
+                return d;
+            }
         }
 
-        [Fact]
-        public void Activity_IsSorted()
-        {
-            var l = new List<Activity>()
-            {
-                new Activity(1,2),
-                new Activity(2,3),
-                new Activity(0,1)
-            };
-            l.Sort();
-            for (int i = 0; i < l.Count; i++)
-                Assert.Equal(i + 1, l[i].End);
-        }
     }
 }
