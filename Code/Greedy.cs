@@ -106,5 +106,44 @@ namespace Competitive.Code
             }
             return ret;
         }
+
+        public static int MonsterKiller(int[] dmg, int hp, int potions)
+        {
+            if (dmg.Length == 0)
+                return 0;
+            MaxHeap<int> kills = new MaxHeap<int>();
+            int i = 0;
+            int l = dmg.Length;
+            while (hp > 0 && i < l)
+            {
+                if (dmg[i] > hp)
+                {
+                    if (potions == 0)
+                    {
+                        return i;
+                    }
+                    else
+                    {
+                        potions--;
+                        if (!kills.IsEmpty())
+                        {
+                            if (dmg[i] <= kills.Top())
+                            {
+                                hp += kills.RemoveTop();
+                                kills.Insert(dmg[i]);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    hp -= dmg[i];
+                    if (dmg[i] > 0)
+                        kills.Insert(dmg[i]);
+                }
+                i++;
+            }
+            return i;
+        }
     }
 }

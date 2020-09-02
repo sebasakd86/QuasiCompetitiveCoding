@@ -38,12 +38,11 @@ namespace Competitive.Tests
             }
         }
         [Theory]
-
+        [MemberData(nameof(MinimumNumberOfPlatformsTestData))]
         public void MinimumNumberOfPlatforms(int expected, List<ScheduleActivity> trainActivity)
         {
             Assert.Equal(expected, Greedy.MinimumNumberOfPlatforms(trainActivity));
         }
-
         public static TheoryData<int, List<ScheduleActivity>> MinimumNumberOfPlatformsTestData
         {
             get
@@ -80,5 +79,17 @@ namespace Competitive.Tests
             }
         }
 
+        [Fact]
+        public void MonsterKiller()
+        {
+            Assert.Equal(0, Greedy.MonsterKiller(new int[]{}, 10, 2));
+            Assert.Equal(1, Greedy.MonsterKiller(new int[]{-1}, 10, 2));
+            Assert.Equal(0, Greedy.MonsterKiller(new int[]{11}, 10, 0));
+            Assert.Equal(3, Greedy.MonsterKiller(new int[]{1,2,3}, 10, 0));
+            Assert.Equal(2, Greedy.MonsterKiller(new int[]{1,2,3}, 5, 0));
+            Assert.Equal(3, Greedy.MonsterKiller(new int[]{1,2,3}, 5, 1));
+            Assert.Equal(8, Greedy.MonsterKiller(new int[]{-3,2,3,-2,8,8,6,4,3,3}, 10, 2));
+            Assert.Equal(2, Greedy.MonsterKiller(new int[]{4,6,2}, 5, 1));
+        }
     }
 }
