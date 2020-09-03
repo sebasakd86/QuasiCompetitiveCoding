@@ -145,5 +145,92 @@ namespace Competitive.Code
             }
             return i;
         }
+        public static int MinimumNumberOfBoats(int[] weights, int maxW, int wDif)
+        {
+            int l = weights.Length;
+            if (l == 0)
+                return 0;
+            if (l == 1)
+            {
+                if (weights[0] <= maxW)
+                    return 1;
+                return 0;
+            }
+            Array.Sort(weights);
+            int trips = l;
+            for (int i = 0; i < l; i++)
+            {
+                if (i + 1 >= l)
+                    break;
+                if (weights[i + 1] - weights[i] <= wDif)
+                {
+                    if (weights[i] + weights[i + 1] <= maxW)
+                    {
+                        i++;
+                        trips--;
+                    }
+                }
+            }
+            return trips;
+        }
+
+        public static int MinimumNumberOfBoats_UdemySolution(int[] weights, int maxWeight, int weightDiff)
+        {
+            // * the solution provided by the instructor doesn't take edge cases into account. Had to add them by had.
+            // * algo on the last if, i had to add a comparison, since the top.key && i might be the same, and if !isTaken[i]
+            // * that value is never popped
+            // * this solution seems overly complicated, since every solution works for every other lower solution
+            int n = weights.Length;
+            if (n == 0)
+                return 0;
+            if (n == 1)
+            {
+                if (weights[0] <= weightDiff)
+                    return 1;
+                return 0;
+            }
+            Array.Sort(weights);
+            int ans = 0;
+            int p = 0;
+            List<bool> isTaken = new List<bool>(new bool[n]);
+            MaxHeap<BoatKey> pq = new MaxHeap<BoatKey>();
+            for (int i = n - 1; i >= 0; i--)
+            {
+                while (p < i && weights[p] + weights[i] <= maxWeight)
+                {
+                    pq.Insert(new BoatKey(p, weights[p]));
+                    p++;
+                }
+                if (isTaken[i]) continue;
+
+                while (!pq.IsEmpty() && weights[i] - pq.Top().Weight <= weightDiff)
+                {
+                    if (isTaken[pq.Top().Key] || i == pq.Top().Key)
+                    {
+                        pq.RemoveTop();
+                        continue;
+                    }
+                    isTaken[i] = isTaken[pq.Top().Key] = true;
+                    pq.RemoveTop();
+                    break;
+                }
+                ans++;
+            }
+            return ans;
+        }
+    }
+    class BoatKey : IComparable
+    {
+        public int Weight { get; }
+        public int Key { get; }
+        public BoatKey(int key, int weight)
+        {
+            this.Key = key;
+            this.Weight = weight;
+        }
+        public int CompareTo(object obj)
+        {
+            return this.Weight.CompareTo(((BoatKey)obj).Weight);
+        }
     }
 }

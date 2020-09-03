@@ -53,7 +53,7 @@ namespace Competitive.Tests
                 d.Add(1, new List<ScheduleActivity>() { new ScheduleActivity(0, 1), new ScheduleActivity(1, 2), new ScheduleActivity(2, 3) });
                 d.Add(4, new List<ScheduleActivity>()
                 {
-                    new ScheduleActivity(2,3), new ScheduleActivity(2,4), new ScheduleActivity(3,4), 
+                    new ScheduleActivity(2,3), new ScheduleActivity(2,4), new ScheduleActivity(3,4),
                     new ScheduleActivity(3,5), new ScheduleActivity(3,4), new ScheduleActivity(5,6)
                 });
                 d.Add(5, new List<ScheduleActivity>()
@@ -82,14 +82,42 @@ namespace Competitive.Tests
         [Fact]
         public void MonsterKiller()
         {
-            Assert.Equal(0, Greedy.MonsterKiller(new int[]{}, 10, 2));
-            Assert.Equal(1, Greedy.MonsterKiller(new int[]{-1}, 10, 2));
-            Assert.Equal(0, Greedy.MonsterKiller(new int[]{11}, 10, 0));
-            Assert.Equal(3, Greedy.MonsterKiller(new int[]{1,2,3}, 10, 0));
-            Assert.Equal(2, Greedy.MonsterKiller(new int[]{1,2,3}, 5, 0));
-            Assert.Equal(3, Greedy.MonsterKiller(new int[]{1,2,3}, 5, 1));
-            Assert.Equal(8, Greedy.MonsterKiller(new int[]{-3,2,3,-2,8,8,6,4,3,3}, 10, 2));
-            Assert.Equal(2, Greedy.MonsterKiller(new int[]{4,6,2}, 5, 1));
+            Assert.Equal(0, Greedy.MonsterKiller(new int[] { }, 10, 2));
+            Assert.Equal(1, Greedy.MonsterKiller(new int[] { -1 }, 10, 2));
+            Assert.Equal(0, Greedy.MonsterKiller(new int[] { 11 }, 10, 0));
+            Assert.Equal(3, Greedy.MonsterKiller(new int[] { 1, 2, 3 }, 10, 0));
+            Assert.Equal(2, Greedy.MonsterKiller(new int[] { 1, 2, 3 }, 5, 0));
+            Assert.Equal(3, Greedy.MonsterKiller(new int[] { 1, 2, 3 }, 5, 1));
+            Assert.Equal(8, Greedy.MonsterKiller(new int[] { -3, 2, 3, -2, 8, 8, 6, 4, 3, 3 }, 10, 2));
+            Assert.Equal(2, Greedy.MonsterKiller(new int[] { 4, 6, 2 }, 5, 1));
+        }
+
+        [Theory]
+        [MemberData(nameof(MinimumNumberOfBoatsTestData))]
+        public void MinimumNumberOfBoats(int expected, int[] weights, int maxWeight, int weightDiff)
+        {
+            Assert.Equal(expected, Greedy.MinimumNumberOfBoats(weights, maxWeight, weightDiff));
+        }
+
+        [Theory]
+        [MemberData(nameof(MinimumNumberOfBoatsTestData))]
+        public void MinimumNumberOfBoats_UdemySolution(int expected, int[] weights, int maxWeight, int weightDiff)
+        {
+            Assert.Equal(expected, Greedy.MinimumNumberOfBoats_UdemySolution(weights, maxWeight, weightDiff));
+        }
+        public static TheoryData<int, int[], int, int> MinimumNumberOfBoatsTestData
+        {
+            get
+            {
+                var d = new TheoryData<int, int[], int, int>();
+                d.Add(0, new int[] { }, 1, 1);
+                d.Add(1, new int[] { 1 }, 1, 1);
+                d.Add(0, new int[] { 5 }, 1, 1);
+                d.Add(3, new int[] { 2, 6, 5, 1 }, 10, 3);
+                d.Add(4, new int[] { 1, 2, 2, 2, 3, 4, 4, 4 }, 10, 3);
+                d.Add(6, new int[] { 81, 37, 32, 88, 55, 93, 45, 72 }, 100, 10);
+                return d;
+            }
         }
     }
 }
