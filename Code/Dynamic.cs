@@ -11,27 +11,25 @@ namespace Code
             int l = vs.Length;
             if (l < 2)
                 return l;
-            int[] dp = new int[l];
+
             int[] minLast = new int[l];
 
-            dp[0] = 1;
             int minLastIx = 0;
             minLast[minLastIx] = vs[0];            
             for (int i = 1; i < l; i++)
             {
                 if(vs[i] > minLast[minLastIx]){
-                    dp[i] = dp[i-1] + 1;
                     minLast[++minLastIx] = vs[i];
                 }
                 else {
                     //find the ix of the value greater than vs[i].
-                    //dp[i] is the value from dp[ix]
+                    //dp[i] is the value from dp[ix] --> there's no need to keep this value.
                     int ix = FindFirstGreaterValueIndex(minLast, vs[i], 0, minLastIx);
-                    minLast[ix] = vs[i];
-                    dp[i] = dp[ix];
+                    minLast[ix] = vs[i];                    
                 }
             }
-            return dp.Max();
+            //the longest sequence = the lenght of the minLast array
+            return minLastIx + 1;
         }
 
         private static int FindFirstGreaterValueIndex(int[] minLast, int value, int left, int right)
@@ -45,6 +43,11 @@ namespace Code
                     return FindFirstGreaterValueIndex(minLast, value, middle + 1, right);
             }
             return left;
+        }
+
+        public static int LongestCommonSubsequence(int[] vs1, int[] vs2)
+        {
+            return 0;
         }
     }
 }

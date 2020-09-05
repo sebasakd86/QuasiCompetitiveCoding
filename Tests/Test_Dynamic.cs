@@ -28,10 +28,16 @@ namespace Tests
                     5-6-7-8-9
                     1-2-3-6-7-8-9
                 */
-                d.Add(4, new int[]{3,9,11,13,10,12});
-                d.Add(4, new int[]{3,9,7,13,10,12});
+                d.Add(4, new int[] { 3, 9, 11, 13, 10, 12 });
+                d.Add(4, new int[] { 3, 9, 7, 13, 10, 12 });
                 return d;
             }
+        }
+
+        [Fact]
+        public void LongestCommonSubsequence()
+        {
+            Assert.Equal(0, Dynamic.LongestCommonSubsequence(new int[] { }, new int[] { }));
         }
     }
 }
