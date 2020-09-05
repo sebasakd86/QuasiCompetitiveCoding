@@ -38,6 +38,15 @@ namespace Tests
         public void LongestCommonSubsequence()
         {
             Assert.Equal(0, Dynamic.LongestCommonSubsequence(new int[] { }, new int[] { }));
+            Assert.Equal(0, Dynamic.LongestCommonSubsequence(new int[] { }, new int[] { 1 }));
+            Assert.Equal(0, Dynamic.LongestCommonSubsequence(new int[] { 1 }, new int[] { }));
+            Assert.Equal(1, Dynamic.LongestCommonSubsequence(new int[] { 1 }, new int[] { 1 }));
+            Assert.Equal(0, Dynamic.LongestCommonSubsequence(new int[] { 1 }, new int[] { 0 }));
+            Assert.Equal(1, Dynamic.LongestCommonSubsequence(new int[] { 1 }, new int[] { 1, 2, 3 }));
+            Assert.Equal(1, Dynamic.LongestCommonSubsequence(new int[] { 3 }, new int[] { 1, 2, 3 }));
+            Assert.Equal(2, Dynamic.LongestCommonSubsequence(new int[] { 1, 3 }, new int[] { 1, 2, 3 }));
+            Assert.Equal(4, Dynamic.LongestCommonSubsequence(new int[] { 3, 1, 2, 4, 5 }, new int[] { 1, 2, 4, 3, 2, 5 }));
+            Assert.Equal(3, Dynamic.LongestCommonSubsequence(new int[] { 1, 7, 1, 8, 3, 6, 5, 9 }, new int[] { 7, 3, 9, 8 }));
         }
     }
 }
