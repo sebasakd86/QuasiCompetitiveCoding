@@ -65,19 +65,56 @@ namespace Code
                         dp[i, j] = ((i > 0 && j > 0) ? 1 + dp[i - 1, j - 1] : 1);
                     }
                     else
-                    {              
-                        int val = 0;   
-                        if(i > 0 && j > 0) 
-                            val = Math.Max(dp[i - 1, j], dp[i, j - 1]); 
-                        else if(i > 0) 
-                            val = dp[i-1,j];
-                        else if(j > 0) 
-                            val = dp[i,j-1];
+                    {
+                        int val = 0;
+                        if (i > 0 && j > 0)
+                            val = Math.Max(dp[i - 1, j], dp[i, j - 1]);
+                        else if (i > 0)
+                            val = dp[i - 1, j];
+                        else if (j > 0)
+                            val = dp[i, j - 1];
                         dp[i, j] = val;
                     }
                 }
             }
             return dp[l1 - 1, l2 - 1];
+        }
+
+        public static int Knapsack(List<KeyValuePair<int, int>> lists, int maxWeight)
+        {
+
+            // Console.WriteLine(String.Join("-", lists));
+            // Console.Write($"\t\t");
+            // for (int j = 1; j <= maxWeight; j++)
+            //     Console.Write($"{j}\t");
+            // Console.WriteLine();
+            int[,] dp = new int[lists.Count + 1, maxWeight + 1];
+            for (int i = 1; i <= lists.Count; i++)
+            {
+                // Console.Write($"{i}{lists[i-1]}-->\t");
+                int w = lists[i - 1].Key;
+                int v = lists[i - 1].Value;
+                for (int j = 1; j <= maxWeight; j++)
+                {
+                    dp[i, j] = dp[i - 1, j];
+                    if (w <= j)
+                    {
+                        dp[i, j] = Math.Max(dp[i, j], v + dp[i - 1, j - w]);
+                    }
+                }
+                // for (int j = 1; j <= maxWeight; j++)
+                // {
+                //     Console.Write($"{dp[i, j]}\t");
+                // }
+                // Console.WriteLine();
+            }
+            int ans = 0;
+            for (int i = 0; i <= maxWeight; i++)
+            {
+                ans = Math.Max(ans, dp[lists.Count, i]);
+            }
+            // Console.WriteLine($"res --> {ans}");
+            return ans;
         }
     }
 }

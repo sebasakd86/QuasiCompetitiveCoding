@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Code;
 using Xunit;
 
@@ -58,6 +59,30 @@ namespace Tests
                 d.Add(3, new int[] { 1, 7, 1, 8, 3, 6, 5, 9 }, new int[] { 7, 3, 9, 8 });
                 return d;
             }
+        }
+
+
+        [Fact]
+        public void Knapsack()
+        {
+            // Assert.Equal(0, Dynamic.Knapsack(new List<KeyValuePair<int,int>>()));
+            Assert.Equal(6, Dynamic.Knapsack(new List<KeyValuePair<int, int>>(){
+                new KeyValuePair<int,int>(1,2), new KeyValuePair<int,int>(2,4), new KeyValuePair<int,int>(3,5)
+            }, 3));
+            Assert.Equal(6, Dynamic.Knapsack(new List<KeyValuePair<int, int>>(){
+                new KeyValuePair<int,int>(2,4), new KeyValuePair<int,int>(3,5),new KeyValuePair<int,int>(1,2)
+            }, 3));            
+            Assert.Equal(6, Dynamic.Knapsack(new List<KeyValuePair<int, int>>(){
+                new KeyValuePair<int,int>(3,5), new KeyValuePair<int,int>(2,4),new KeyValuePair<int,int>(1,2)
+            }, 3));                        
+            Assert.Equal(29, Dynamic.Knapsack(new List<KeyValuePair<int, int>>(){
+                new KeyValuePair<int,int>(3,7), 
+                new KeyValuePair<int,int>(3,4),
+                new KeyValuePair<int,int>(1,2),
+                new KeyValuePair<int,int>(1,9),
+                new KeyValuePair<int,int>(2,4),
+                new KeyValuePair<int,int>(1,5)
+            }, 10));               
         }
     }
 }
