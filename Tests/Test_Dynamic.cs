@@ -62,27 +62,41 @@ namespace Tests
         }
 
 
-        [Fact]
-        public void Knapsack()
+        [Theory]
+        [MemberData(nameof(KnapsackTestData))]
+        public void Knapsack(int expected, List<KeyValuePair<int, int>> weigthValues, int maxWeight)
         {
-            // Assert.Equal(0, Dynamic.Knapsack(new List<KeyValuePair<int,int>>()));
-            Assert.Equal(6, Dynamic.Knapsack(new List<KeyValuePair<int, int>>(){
-                new KeyValuePair<int,int>(1,2), new KeyValuePair<int,int>(2,4), new KeyValuePair<int,int>(3,5)
-            }, 3));
-            Assert.Equal(6, Dynamic.Knapsack(new List<KeyValuePair<int, int>>(){
-                new KeyValuePair<int,int>(2,4), new KeyValuePair<int,int>(3,5),new KeyValuePair<int,int>(1,2)
-            }, 3));            
-            Assert.Equal(6, Dynamic.Knapsack(new List<KeyValuePair<int, int>>(){
-                new KeyValuePair<int,int>(3,5), new KeyValuePair<int,int>(2,4),new KeyValuePair<int,int>(1,2)
-            }, 3));                        
-            Assert.Equal(29, Dynamic.Knapsack(new List<KeyValuePair<int, int>>(){
-                new KeyValuePair<int,int>(3,7), 
-                new KeyValuePair<int,int>(3,4),
-                new KeyValuePair<int,int>(1,2),
-                new KeyValuePair<int,int>(1,9),
-                new KeyValuePair<int,int>(2,4),
-                new KeyValuePair<int,int>(1,5)
-            }, 10));               
+            Assert.Equal(expected, Dynamic.Knapsack(weigthValues, maxWeight));
+        }
+        public static TheoryData<int, List<KeyValuePair<int, int>>, int> KnapsackTestData
+        {
+            get
+            {
+                var d = new TheoryData<int, List<KeyValuePair<int, int>>, int>();
+                d.Add(0, new List<KeyValuePair<int, int>>(){}, 100);
+                d.Add(0, new List<KeyValuePair<int, int>>(){
+                            new KeyValuePair<int,int>(1,2), new KeyValuePair<int,int>(2,4), new KeyValuePair<int,int>(3,5)
+                        }, 0);
+                d.Add(6, new List<KeyValuePair<int, int>>(){
+                            new KeyValuePair<int,int>(1,2), new KeyValuePair<int,int>(2,4), new KeyValuePair<int,int>(3,5)
+                        }, 3);
+                d.Add(6, new List<KeyValuePair<int, int>>(){
+                            new KeyValuePair<int,int>(2,4), new KeyValuePair<int,int>(3,5),new KeyValuePair<int,int>(1,2)
+                        }, 3);
+                d.Add(6, new List<KeyValuePair<int, int>>(){
+                            new KeyValuePair<int,int>(3,5), new KeyValuePair<int,int>(2,4),new KeyValuePair<int,int>(1,2)
+                        }, 3);
+                d.Add(29, new List<KeyValuePair<int, int>>(){
+                            new KeyValuePair<int,int>(3,7),
+                            new KeyValuePair<int,int>(3,4),
+                            new KeyValuePair<int,int>(1,2),
+                            new KeyValuePair<int,int>(1,9),
+                            new KeyValuePair<int,int>(2,4),
+                            new KeyValuePair<int,int>(1,5)
+                        }, 10);
+
+                return d;
+            }
         }
     }
 }
