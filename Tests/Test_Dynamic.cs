@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Code;
 using Xunit;
 
-namespace Tests
+namespace Competitive.Tests
 {
     public class Test_Dynamic
     {

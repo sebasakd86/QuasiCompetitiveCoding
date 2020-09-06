@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Competitive.Code;
 using Xunit;
 
-namespace Tests
+namespace Competitive.Tests
 {
     public class Test_Activity
     {
