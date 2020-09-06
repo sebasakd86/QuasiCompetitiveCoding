@@ -73,7 +73,7 @@ namespace Tests
             get
             {
                 var d = new TheoryData<int, List<KeyValuePair<int, int>>, int>();
-                d.Add(0, new List<KeyValuePair<int, int>>(){}, 100);
+                d.Add(0, new List<KeyValuePair<int, int>>() { }, 100);
                 d.Add(0, new List<KeyValuePair<int, int>>(){
                             new KeyValuePair<int,int>(1,2), new KeyValuePair<int,int>(2,4), new KeyValuePair<int,int>(3,5)
                         }, 0);
@@ -98,5 +98,29 @@ namespace Tests
                 return d;
             }
         }
+
+        [Theory]
+        [MemberData(nameof(MinimumEditDistanceTestData))]
+        public void MinimumEditDistance(int expected, string s1, string s2, int cInsert, int cDelete, int cReplace)
+        {
+            Assert.Equal(expected, Dynamic.MinimumEditDistance(s1, s2, cInsert, cDelete, cReplace));
+        }
+
+        public static TheoryData<int, string, string, int, int, int> MinimumEditDistanceTestData
+        {
+            get
+            {
+                var d = new TheoryData<int, string, string, int, int, int>();
+                d.Add(0, "", "", 1, 1, 1);
+                d.Add(1, "a", "", 1, 1, 1);
+                d.Add(3, "", "b", 3, 1, 1);
+                d.Add(2, "ab", "bc", 1, 1, 1);
+                d.Add(2, "ab", "bc", 1, 3, 1);
+                d.Add(3, "sunday", "saturday", 1, 1, 1); //delete N --> add a --> add t
+                d.Add(5, "sumsday", "saturday", 2, 5, 1); //replace u-a --> replace m-t --> replace s-u --> add r
+                return d;
+            }
+        }
+
     }
 }

@@ -116,5 +116,42 @@ namespace Code
             // Console.WriteLine($"res --> {ans}");
             return ans;
         }
+
+        public static int MinimumEditDistance(string v1, string v2, int c1, int c2, int c3)
+        {
+            if (string.IsNullOrWhiteSpace(v1) || string.IsNullOrWhiteSpace(v2))
+            {
+                return (v1.Length > v2.Length) ? v1.Length * c2 : v2.Length * c1;
+            }
+            int n = v1.Length;
+            int m = v2.Length;
+            int[,] dp = new int[n + 1, m + 1];
+
+            for (int i = 0; i < n; i++)
+            {
+                dp[i, 0] = i * c2; //Cost of deleting everything
+            }
+            for (int j = 0; j < m; j++)
+            {
+                dp[0, j] = j * c1; //Cost of adding everything
+            }
+            for (int i = 1; i <= n; i++)
+            {
+                for (int j = 1; j <= m; j++)
+                {
+                    //I can choose 1 out of 4 options
+                    //insert
+                    //delete
+                    //replace
+                    //do nothing
+                    int val = Math.Min(c1 + dp[i, j - 1], c2 + dp[i - 1, j]); //Less cost between inserting and deleting
+                    val = Math.Min(val, c3 + dp[i - 1, j - 1]); //Less cost between the value and replacing
+                    if (v1[i - 1] == v2[j - 1]) //if the values happen to be the same
+                        val = Math.Min(val, dp[i - 1, j - 1]); //Less cost between the current value and doing nothing.
+                    dp[i,j] = val;
+                }
+            }
+            return dp[n,m];
+        }
     }
 }
